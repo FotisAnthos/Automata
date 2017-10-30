@@ -2,7 +2,7 @@
 
 public class readClass {
 
-	public readClass() {
+	public readClass(String inputLocation) {
 		//retrieve();
 		
 	}

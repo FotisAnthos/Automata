@@ -14,8 +14,6 @@ public class Main {
 			e.printStackTrace();
 		}
 
-
-
 		//readClass read = new readClass();
 		new gui();
 

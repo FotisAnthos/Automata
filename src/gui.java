@@ -11,6 +11,8 @@ public class gui {
 	private JRadioButton rdbtnCustomInput;
 	private JButton browseButton;
 	private JTextField LocTextField;
+	private String InputLocation;
+
 
 	public gui() {
 		initialize();
@@ -37,9 +39,12 @@ public class gui {
 		}
 		String defaultInputFile = currDir + "\\" +  "input.txt";
 		File tmpDir = new File(defaultInputFile);
-		if(!tmpDir.exists()) {
-			defaultInputFile = currDir;
-		}
+		
+		if(tmpDir.exists()) 
+			InputLocation = defaultInputFile;
+		else 
+			InputLocation = currDir;
+
 
 		JPanel inputPanel = new JPanel();
 		GridBagConstraints gbc_inputPanel = new GridBagConstraints();
@@ -73,10 +78,13 @@ public class gui {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					LocTextField.setEnabled(true);
 					browseButton.setEnabled(true);
+					
 				}
 				else if (e.getStateChange() == ItemEvent.DESELECTED) {
 					LocTextField.setEnabled(false);
 					browseButton.setEnabled(false);
+					InputLocation = defaultInputFile;
+					LocTextField.setText(InputLocation);
 				}
 			}
 		});
@@ -102,10 +110,11 @@ public class gui {
 		browseButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(browseButton.isEnabled())
-					fileChoose();
-				//File file = fileChoose();//TODO incomplete
-				//inputLoc.setText(file.getAbsolutePath());
+				if(browseButton.isEnabled()) {
+					File file = fileChoose();//TODO incomplete
+					InputLocation = file.getAbsolutePath();
+					LocTextField.setText(InputLocation);
+				}
 			}
 		});
 		browseButton.setEnabled(false);
@@ -125,10 +134,17 @@ public class gui {
 		inputPanel.add(btnCancel);
 
 		JButton btnNext = new JButton("Next");
+		btnNext.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				//TODO
+				new readClass(InputLocation);
+			}
+		});
 		sl_inputPanel.putConstraint(SpringLayout.SOUTH, btnNext, 0, SpringLayout.SOUTH, btnCancel);
 		sl_inputPanel.putConstraint(SpringLayout.EAST, btnNext, -6, SpringLayout.WEST, btnCancel);
 		inputPanel.add(btnNext);
-		
+
 		JLabel lblSourceFile = new JLabel("Source File:");
 		sl_inputPanel.putConstraint(SpringLayout.NORTH, LocTextField, 6, SpringLayout.SOUTH, lblSourceFile);
 		sl_inputPanel.putConstraint(SpringLayout.NORTH, lblSourceFile, 6, SpringLayout.SOUTH, rdbtnCustomInput);
