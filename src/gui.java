@@ -39,12 +39,6 @@ public class gui {
 		}
 		String defaultInputFile = currDir + "\\" +  "input.txt";
 		File tmpDir = new File(defaultInputFile);
-		
-		if(tmpDir.exists()) 
-			InputLocation = defaultInputFile;
-		else 
-			InputLocation = currDir;
-
 
 		JPanel inputPanel = new JPanel();
 		GridBagConstraints gbc_inputPanel = new GridBagConstraints();
@@ -66,11 +60,21 @@ public class gui {
 		inputPanel.add(txtpnChooseDefaultTo);
 
 		rdbtnDefault = new JRadioButton("Default");
-		rdbtnDefault.setSelected(true);
+
 		InputButtonGroup.add(rdbtnDefault);
 		sl_inputPanel.putConstraint(SpringLayout.NORTH, rdbtnDefault, 6, SpringLayout.SOUTH, txtpnChooseDefaultTo);
 		sl_inputPanel.putConstraint(SpringLayout.WEST, rdbtnDefault, 0, SpringLayout.WEST, txtpnChooseDefaultTo);
 		inputPanel.add(rdbtnDefault);
+
+		if(tmpDir.exists()) {
+			InputLocation = defaultInputFile;
+			rdbtnDefault.setSelected(true);
+		}
+		else {
+			InputLocation = currDir;
+			rdbtnCustomInput.setSelected(true);
+		}
+
 
 		rdbtnCustomInput = new JRadioButton("Custom Input");
 		rdbtnCustomInput.addItemListener(new ItemListener() {//https://stackoverflow.com/a/1424762
@@ -78,7 +82,7 @@ public class gui {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					LocTextField.setEnabled(true);
 					browseButton.setEnabled(true);
-					
+
 				}
 				else if (e.getStateChange() == ItemEvent.DESELECTED) {
 					LocTextField.setEnabled(false);
@@ -138,7 +142,9 @@ public class gui {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				//TODO
-				new readClass(InputLocation);
+				readClass r = new readClass(InputLocation);
+				r.getStates();
+				//get the read results and use them
 			}
 		});
 		sl_inputPanel.putConstraint(SpringLayout.SOUTH, btnNext, 0, SpringLayout.SOUTH, btnCancel);
