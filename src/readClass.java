@@ -23,8 +23,7 @@ public class readClass {
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			//file read
 			int noOfStates = Integer.valueOf(bufferedReader.readLine());//Always 1 number Το αυτόματο έχει τρεις καταστάσεις *\
-
-
+			System.out.println(noOfStates);
 
 			temp = bufferedReader.readLine();
 			String[] starts = temp.split(" ");
@@ -38,6 +37,7 @@ public class readClass {
 			for(int i=0;i<noOfStates;i++) {
 				boolean isStart = false;
 				boolean isFinal = false;
+				
 				for(int j=0;i<noOfStarts;i++) {
 					if(Integer.valueOf(starts[j]) == i)
 						isStart = true;
@@ -48,21 +48,26 @@ public class readClass {
 				}
 				states.add(new State(isStart, isFinal));
 			}//states creation
-
+			for(State state : states) {
+				System.out.println("1");
+			}
 			int noOfTransitions = Integer.valueOf(bufferedReader.readLine());//Always 1 number
-
+/*
 			//transition information to states
 			for(int i=0;i<noOfTransitions;i++) {
 				temp = bufferedReader.readLine();
-				String[] templist = temp.split(" ");
-				int sourceState = Integer.valueOf(templist[0]);
-				states.get(sourceState).addTransition(templist[1], Integer.valueOf(templist[2]));
-			}
+				String templist = temp.trim();
+				int sourceState = Character.getNumericValue(templist.charAt(0));
+				System.out.println(sourceState);
+				char tempCharacter = templist.charAt(1);
+				int destination = Character.getNumericValue(templist.charAt(2));
+				states.get(sourceState).addTransition(tempCharacter, destination);
+			}*/
 
-			System.out.println(noOfStates);
-			System.out.println(noOfStarts);
-			System.out.println(noOfEnds);
-			System.out.println(noOfTransitions);
+			System.out.println(noOfStates + "Number of States");
+			System.out.println(noOfStarts + "Number of Initial States");
+			System.out.println(noOfEnds + "Number of Ending States");
+			System.out.println(noOfTransitions + "Number of Transitions");
 
 			// Always close files.
 			bufferedReader.close();    
