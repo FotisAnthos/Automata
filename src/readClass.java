@@ -34,15 +34,17 @@ public class readClass {
 			String[] ends = temp.split(" ");
 
 			states = new ArrayList<State>();
-			for(int i=0;i<noOfStates;i++) {
+			int i;
+			for(i=0;i<noOfStates;i++) {
 				boolean isStart = false;
 				boolean isFinal = false;
 				
-				for(int j=0;i<noOfStarts;i++) {
+				System.out.println("loop " + i);
+				for(int j=0;j<noOfStarts;j++) {
 					if(Integer.valueOf(starts[j]) == i)
 						isStart = true;
 				}
-				for(int j=0;i<noOfEnds;i++) {
+				for(int j=0;j<noOfEnds;j++) {
 					if(Integer.valueOf(ends[j]) == i)
 						isFinal = true;
 				}
@@ -64,10 +66,10 @@ public class readClass {
 				states.get(sourceState).addTransition(tempCharacter, destination);
 			}*/
 
-			System.out.println(noOfStates + "Number of States");
-			System.out.println(noOfStarts + "Number of Initial States");
-			System.out.println(noOfEnds + "Number of Ending States");
-			System.out.println(noOfTransitions + "Number of Transitions");
+			System.out.println(noOfStates + " : Number of States");
+			System.out.println(noOfStarts + " : Number of Initial States");
+			System.out.println(noOfEnds + " : Number of Ending States");
+			System.out.println(noOfTransitions + " : Number of Transitions");
 
 			// Always close files.
 			bufferedReader.close();    
