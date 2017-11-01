@@ -15,6 +15,15 @@ public class gui {
 
 
 	public gui() {
+		// Set System L&F
+				try {
+					UIManager.setLookAndFeel(
+							UIManager.getSystemLookAndFeelClassName());
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		initialize();
 	}
 
@@ -30,6 +39,11 @@ public class gui {
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		frame.setTitle("Automata - it14112");
+		inputPanel();//The first panel to choose input file location
+		frame.setVisible(true);
+	}
+	
+	private void inputPanel() {
 		File file=new File(".");
 		String currDir= file.getAbsolutePath();
 		try {
@@ -97,8 +111,6 @@ public class gui {
 		sl_inputPanel.putConstraint(SpringLayout.WEST, rdbtnCustomInput, 0, SpringLayout.WEST, txtpnChooseDefaultTo);
 		inputPanel.add(rdbtnCustomInput);
 
-
-
 		LocTextField = new JTextField();
 		sl_inputPanel.putConstraint(SpringLayout.WEST, LocTextField, 0, SpringLayout.WEST, txtpnChooseDefaultTo);
 		sl_inputPanel.putConstraint(SpringLayout.SOUTH, LocTextField, 49, SpringLayout.SOUTH, rdbtnCustomInput);
@@ -156,8 +168,6 @@ public class gui {
 		sl_inputPanel.putConstraint(SpringLayout.NORTH, lblSourceFile, 6, SpringLayout.SOUTH, rdbtnCustomInput);
 		sl_inputPanel.putConstraint(SpringLayout.WEST, lblSourceFile, 0, SpringLayout.WEST, txtpnChooseDefaultTo);
 		inputPanel.add(lblSourceFile);
-
-		frame.setVisible(true);
 	}
 
 	private File fileChoose() {
