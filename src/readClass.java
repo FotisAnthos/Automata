@@ -23,7 +23,7 @@ public class readClass {
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			//file read
 			int noOfStates = Integer.valueOf(bufferedReader.readLine());//Always 1 number Το αυτόματο έχει τρεις καταστάσεις *\
-			System.out.println(noOfStates);
+			
 
 			temp = bufferedReader.readLine();
 			String[] starts = temp.split(" ");
@@ -39,7 +39,6 @@ public class readClass {
 				boolean isStart = false;
 				boolean isFinal = false;
 				
-				System.out.println("loop " + i);
 				for(int j=0;j<noOfStarts;j++) {
 					if(Integer.valueOf(starts[j]) == i)
 						isStart = true;
@@ -48,10 +47,10 @@ public class readClass {
 					if(Integer.valueOf(ends[j]) == i)
 						isFinal = true;
 				}
-				states.add(new State(isStart, isFinal));
+				states.add(new State(isStart, isFinal, i));
 			}//states creation
 			for(State state : states) {
-				System.out.println("1");
+				state.printStateInfo();
 			}
 			int noOfTransitions = Integer.valueOf(bufferedReader.readLine());//Always 1 number
 /*
