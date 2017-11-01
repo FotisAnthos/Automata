@@ -16,14 +16,14 @@ public class gui {
 
 	public gui() {
 		// Set System L&F
-				try {
-					UIManager.setLookAndFeel(
-							UIManager.getSystemLookAndFeelClassName());
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		try {
+			UIManager.setLookAndFeel(
+					UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initialize();
 	}
 
@@ -42,7 +42,7 @@ public class gui {
 		inputPanel();//The first panel to choose input file location
 		frame.setVisible(true);
 	}
-	
+
 	private void inputPanel() {
 		File file=new File(".");
 		String currDir= file.getAbsolutePath();

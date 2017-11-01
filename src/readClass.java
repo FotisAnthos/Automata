@@ -6,15 +6,11 @@ public class readClass {
 	List<State> states;
 
 	public readClass(String inputLocation) {
-		retrieve(inputLocation);
-
+		if(!retrieve(inputLocation))
+			System.out.println("Read error");
 	}
 
-
-
-
 	public boolean retrieve(String inputLocation) {
-
 
 		//open file
 		try {
@@ -55,7 +51,7 @@ public class readClass {
 				}
 				states.add(new State(isStart, isFinal, i));
 			}
-				
+
 			int noOfTransitions = Integer.valueOf(bufferedReader.readLine());//Always 1 number
 
 			//transition information to states
@@ -68,7 +64,7 @@ public class readClass {
 				String tempCharacter = templist[1];
 				int destination = Integer.valueOf(templist[2]);
 
-				
+
 				for(State state : states) {
 					if(state.getStateName() == sourceState) {
 						//System.out.println(sourceState + "|" + tempCharacter + "|" + destination);
@@ -77,41 +73,34 @@ public class readClass {
 					}
 				}
 			}
-			
-			for(State state : states) {
-				state.printStateInfo();
-			}
-			 		
-			/*
+			/*Debugging part
 			System.out.println(noOfStates + " : Number of States");
 			System.out.println(noOfStarts + " : Number of Initial States");
 			System.out.println(noOfEnds + " : Number of Ending States");
 			System.out.println(noOfTransitions + " : Number of Transitions");
+			for(State state : states) {
+				state.printStateInfo();
+			}
 			 */
-			// Always close files.
-			bufferedReader.close();    
+
+			//Closing the door
+			bufferedReader.close();
+			fileReader.close();
+			return true;
 		}
 		catch(FileNotFoundException ex) {
-			System.out.println("Unable to open file '" +inputLocation + "'");                
+			System.out.println("Unable to open file '" +inputLocation + "'");    
+			return false;
 		}
 		catch(IOException ex) {
 			System.out.println("Error reading file '" + inputLocation + "'");                  
 			ex.printStackTrace();
+			return false;
 		}   
-
-		return true;
 	}
 
 	public List<State> getStates() {
 		return states;
 	}
-
-
-
-
-
-
-
-
 
 }

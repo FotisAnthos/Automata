@@ -22,7 +22,7 @@ public class State {
 		this.condition.add(tempCharacter);
 		this.outgoing.add(destination);	
 	}
-	
+
 	public void printStateInfo() {//helps with debugging
 		System.out.print("\n *** \n" + stateName);
 		if(initial)
@@ -34,14 +34,14 @@ public class State {
 		for(i=0;i<outgoing.size();i++) {
 			System.out.println(stateName + "|" + condition.get(i) + "|" + outgoing.get(i));
 		}
-		
-		
+
+
 	}
 
 	public int getStateName() {
 		return stateName;
 	}
-	
+
 
 
 
