@@ -18,19 +18,30 @@ public class State {
 
 	}
 
-	public void addTransition(String condition, int destination) {
-		this.condition.add(condition);
+	public void addTransition(String tempCharacter, int destination) {
+		this.condition.add(tempCharacter);
 		this.outgoing.add(destination);	
 	}
 	
-	public void printStateInfo() {
-		System.out.println(stateName);
+	public void printStateInfo() {//helps with debugging
+		System.out.print("\n *** \n" + stateName);
 		if(initial)
-			System.out.print("Is initial ");
+			System.out.print(" Is initial ");
 		if(afinal)
-			System.out.print("Is a final ");
+			System.out.print(" Is a final ");
 		System.out.println();
+		int i;
+		for(i=0;i<outgoing.size();i++) {
+			System.out.println(stateName + "|" + condition.get(i) + "|" + outgoing.get(i));
+		}
+		
+		
 	}
+
+	public int getStateName() {
+		return stateName;
+	}
+	
 
 
 
