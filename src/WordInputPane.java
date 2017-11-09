@@ -1,16 +1,22 @@
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 
 public class WordInputPane extends JPanel {
 
 	private JFrame frame;
-
-	public WordInputPane(JFrame frame, Core c) {
+	private gui test;
+	
+	public WordInputPane(JFrame frame, Core c, gui test) {
+		
+		this.test = test;
 		this.frame = frame;
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
@@ -45,11 +51,7 @@ public class WordInputPane extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				//TODO go back to input pane
-				
-
-
-
-
+				test.TempToPrevious();//TODO remove this and "gui test" from this class
 			}
 		});
 		add(btnPrevious);
@@ -62,9 +64,13 @@ public class WordInputPane extends JPanel {
 		springLayout.putConstraint(SpringLayout.EAST, inputEditor, 0, SpringLayout.EAST, txtpnInputTheWord);
 		add(inputEditor);
 		inputEditor.getDocument().addDocumentListener(new MyDocumentListener());
+		
 		setVisible(true);
 		frame.getContentPane().add(this);
 	}
+
+	
+	
 
 	class MyDocumentListener implements DocumentListener {
 		String newline = "\n";

@@ -53,7 +53,7 @@ public class gui {
 		private JRadioButton rdbtnDefault;
 		private JRadioButton rdbtnCustom;
 		private JButton btnNext;
-		private JButton btnCancel;
+		private JButton btnExit;
 		private JFrame frame;
 
 
@@ -119,7 +119,6 @@ public class gui {
 			springLayout.putConstraint(SpringLayout.EAST, locTextField, -122, SpringLayout.EAST, this);
 			locTextField.setText(defaultInputFile);
 			add(locTextField);
-			locTextField.setToolTipText("Something should really be here");
 			locTextField.setColumns(10);
 
 
@@ -139,10 +138,10 @@ public class gui {
 			browseButton.setEnabled(false);
 			add(browseButton);
 
-			btnCancel = new JButton("Cancel");
-			springLayout.putConstraint(SpringLayout.SOUTH, btnCancel, -10, SpringLayout.SOUTH, this);
-			springLayout.putConstraint(SpringLayout.EAST, btnCancel, -29, SpringLayout.EAST, this);
-			btnCancel.addMouseListener(new MouseAdapter() {
+			btnExit = new JButton("Exit");
+			springLayout.putConstraint(SpringLayout.SOUTH, btnExit, -10, SpringLayout.SOUTH, this);
+			springLayout.putConstraint(SpringLayout.EAST, btnExit, -29, SpringLayout.EAST, this);
+			btnExit.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					int choice =JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -150,18 +149,18 @@ public class gui {
 						frame.dispose();
 				}
 			});
-			add(btnCancel);
+			add(btnExit);
 
 			btnNext = new JButton("Next");
-			springLayout.putConstraint(SpringLayout.NORTH, btnNext, 0, SpringLayout.NORTH, btnCancel);
-			springLayout.putConstraint(SpringLayout.EAST, btnNext, -6, SpringLayout.WEST, btnCancel);
+			springLayout.putConstraint(SpringLayout.NORTH, btnNext, 0, SpringLayout.NORTH, btnExit);
+			springLayout.putConstraint(SpringLayout.EAST, btnNext, -6, SpringLayout.WEST, btnExit);
 			btnNext.addMouseListener(new MouseAdapter() {//TODO sent to frame a signal to move on
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					//TODO
 					readClass r = new readClass(InputLocation);
 					Core c = new Core(r.getStates());
-					frame.setContentPane(new WordInputPane(frame, c));
+					frame.setContentPane(new WordInputPane(frame, c, test));
 					
 					//get the read results and use them
 				}
