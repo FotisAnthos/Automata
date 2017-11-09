@@ -41,6 +41,11 @@ public class State {
 	public int getStateName() {
 		return stateName;
 	}
+	
+	private void Transition() {
+		//TODO
+
+	}
 
 
 
