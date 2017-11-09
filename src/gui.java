@@ -13,8 +13,10 @@ import java.io.IOException;
 public class gui {
 
 	private JFrame frame;
+	private gui test;
 
 	public gui() {
+		test = this;//TODO delete after WordInputPane integration to gui
 		// Set System L&F
 		try {
 			UIManager.setLookAndFeel(
@@ -34,14 +36,12 @@ public class gui {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Automata - it14112");
 		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+		new inputPanel(frame);
 		frame.setResizable(false);
-		frame.getContentPane().add(new inputPanel(frame));
 		frame.setVisible(true);
 	}
 
-	private void inputPanel() {
-		//TODO
-	}
+	
 	
 	class inputPanel extends JPanel {
 		private JTextField locTextField;
@@ -119,6 +119,7 @@ public class gui {
 			springLayout.putConstraint(SpringLayout.EAST, locTextField, -122, SpringLayout.EAST, this);
 			locTextField.setText(defaultInputFile);
 			add(locTextField);
+			locTextField.setToolTipText("Something should really be here");
 			locTextField.setColumns(10);
 
 
@@ -159,7 +160,9 @@ public class gui {
 				public void mouseClicked(MouseEvent arg0) {
 					//TODO
 					readClass r = new readClass(InputLocation);
-					r.getStates();
+					Core c = new Core(r.getStates());
+					frame.setContentPane(new WordInputPane(frame, c));
+					
 					//get the read results and use them
 				}
 			});
@@ -176,6 +179,7 @@ public class gui {
 				rdbtnCustom.setSelected(true);
 				locTextField.setEditable(true);
 			}
+			frame.setContentPane(this);
 
 			
 		}
@@ -194,5 +198,8 @@ public class gui {
 			return file = fc.getSelectedFile();
 
 		}
+	}
+	public void TempToPrevious() {
+		frame.setContentPane(new inputPanel(frame));
 	}
 }
