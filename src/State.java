@@ -37,9 +37,28 @@ public class State {
 
 
 	}
+	
+	public Integer Transition(String c) {//The returned integer points to the state that follows
+		int index = 0;
+		for(String s : condition) {
+			if(s.equalsIgnoreCase(c)) {
+				return outgoing.get(index);
+			}
+			index++;
+		}
+		return -1;
+	}
 
 	public int getStateName() {
 		return stateName;
+	}
+
+	public boolean isInitial() {
+		return initial;
+	}
+
+	public boolean isAfinal() {
+		return afinal;
 	}
 
 
