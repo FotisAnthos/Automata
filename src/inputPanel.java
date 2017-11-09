@@ -21,6 +21,18 @@ public class inputPanel extends JPanel {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
+		//Find current directory
+		File file=new File(".");
+		String currDir= file.getAbsolutePath();
+		try {
+			currDir = file.getCanonicalPath();
+		} catch (IOException e1) {
+			currDir = file.getAbsolutePath();
+		}
+		defaultInputFile = currDir + "\\" +  "input.txt";
+		File tmpDir = new File(defaultInputFile);
+
+
 		infoTextPane = new JTextPane();
 		infoTextPane.setBackground(UIManager.getColor("ColorChooser.background"));
 		infoTextPane.setText("Choose \"Default\" to use an existing input file, or \"Custom\" for an input file of your own");
@@ -61,14 +73,16 @@ public class inputPanel extends JPanel {
 
 		locTextField = new JTextField();
 		springLayout.putConstraint(SpringLayout.NORTH, locTextField, 6, SpringLayout.SOUTH, rdbtnCustom);
-		springLayout.putConstraint(SpringLayout.WEST, locTextField, 10, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, locTextField, -124, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, locTextField, 0, SpringLayout.WEST, infoTextPane);
 		springLayout.putConstraint(SpringLayout.EAST, locTextField, -122, SpringLayout.EAST, this);
+		locTextField.setText(defaultInputFile);
 		add(locTextField);
 		locTextField.setColumns(10);
 
 
 		browseButton = new JButton("...");
+		springLayout.putConstraint(SpringLayout.NORTH, browseButton, -1, SpringLayout.NORTH, locTextField);
+		springLayout.putConstraint(SpringLayout.WEST, browseButton, 6, SpringLayout.EAST, locTextField);
 		browseButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -80,11 +94,11 @@ public class inputPanel extends JPanel {
 			}
 		});
 		browseButton.setEnabled(false);
-		springLayout.putConstraint(SpringLayout.NORTH, browseButton, 0, SpringLayout.NORTH, locTextField);
-		springLayout.putConstraint(SpringLayout.WEST, browseButton, 6, SpringLayout.EAST, locTextField);
 		add(browseButton);
 
 		btnCancel = new JButton("Cancel");
+		springLayout.putConstraint(SpringLayout.SOUTH, btnCancel, -10, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.EAST, btnCancel, -29, SpringLayout.EAST, this);
 		btnCancel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -93,11 +107,11 @@ public class inputPanel extends JPanel {
 					frame.dispose();
 			}
 		});
-		springLayout.putConstraint(SpringLayout.SOUTH, btnCancel, -10, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.EAST, btnCancel, 0, SpringLayout.EAST, infoTextPane);
 		add(btnCancel);
 
 		btnNext = new JButton("Next");
+		springLayout.putConstraint(SpringLayout.NORTH, btnNext, 0, SpringLayout.NORTH, btnCancel);
+		springLayout.putConstraint(SpringLayout.EAST, btnNext, -6, SpringLayout.WEST, btnCancel);
 		btnNext.addMouseListener(new MouseAdapter() {//TODO sent to frame a signal to move on
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -107,32 +121,24 @@ public class inputPanel extends JPanel {
 				//get the read results and use them
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnNext, 0, SpringLayout.NORTH, btnCancel);
-		springLayout.putConstraint(SpringLayout.EAST, btnNext, -6, SpringLayout.WEST, btnCancel);
 		add(btnNext);
-
-		//Find current directory
-		File file=new File(".");
-		String currDir= file.getAbsolutePath();
-		try {
-			currDir = file.getCanonicalPath();
-		} catch (IOException e1) {
-			currDir = file.getAbsolutePath();
-		}
-		defaultInputFile = currDir + "\\" +  "input.txt";
-		File tmpDir = new File(defaultInputFile);
+		
 		//Set the initial input location to the locTextField
 		if(tmpDir.exists()) {
 			InputLocation = defaultInputFile;
 			rdbtnDefault.setSelected(true);
+			locTextField.setEditable(false);
 		}
 		else {
 			InputLocation = currDir;
 			rdbtnCustom.setSelected(true);
+			locTextField.setEditable(true);
 		}
 
 
 
+
+		this.setVisible(true);
 	}
 	private File fileChoose() {
 		JFileChooser fc = new JFileChooser();

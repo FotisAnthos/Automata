@@ -5,10 +5,5 @@ public class Main {
 		
 		new gui();
 
-
-
-
-
-
 	}
 }
