@@ -3,7 +3,7 @@ import java.util.*;
 
 
 public class readClass {
-	List<State> states;
+	ArrayList<State> states;
 
 	public readClass(String inputLocation) {
 		if(!retrieve(inputLocation))
@@ -99,7 +99,7 @@ public class readClass {
 		}   
 	}
 
-	public List<State> getStates() {
+	public ArrayList<State> getStates() {
 		return states;
 	}
 
