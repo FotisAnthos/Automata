@@ -1,13 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-
-
+import java.awt.event.*;
+import java.io.*;
 
 
 public class gui {
@@ -23,7 +17,6 @@ public class gui {
 					UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		initialize();
@@ -36,14 +29,14 @@ public class gui {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Automata - it14112");
 		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
-		new inputPanel(frame);
+		new AutomataDescInputPanel(frame);
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
 
 	
 	
-	class inputPanel extends JPanel {
+	class AutomataDescInputPanel extends JPanel {
 		private JTextField locTextField;
 		private final ButtonGroup buttonGroup = new ButtonGroup();
 		private String InputLocation;
@@ -57,7 +50,7 @@ public class gui {
 		private JFrame frame;
 
 
-		public inputPanel(JFrame frame) {
+		public AutomataDescInputPanel(JFrame frame) {
 			this.frame = frame;
 			SpringLayout springLayout = new SpringLayout();
 			setLayout(springLayout);
@@ -159,7 +152,8 @@ public class gui {
 				public void mouseClicked(MouseEvent arg0) {
 					//TODO
 					readClass r = new readClass(InputLocation);
-					Core c = new Core(r.getStates());
+					Core c = new Core(r.getStates(), r.getLanguage(), r.getTransitionLength());
+					
 					frame.setContentPane(new WordInputPane(frame, c, test));
 					
 					//get the read results and use them
@@ -182,6 +176,7 @@ public class gui {
 
 			
 		}
+		
 		private File fileChoose() {
 			JFileChooser fc = new JFileChooser();
 
@@ -198,7 +193,8 @@ public class gui {
 
 		}
 	}
+	
 	public void TempToPrevious() {
-		frame.setContentPane(new inputPanel(frame));
+		frame.setContentPane(new AutomataDescInputPanel(frame));
 	}
 }

@@ -3,9 +3,13 @@ import java.util.*;
 
 
 public class readClass {
-	List<State> states;
+	ArrayList<State> states;
+	ArrayList<String> language;
+	int transitionLength;
 
 	public readClass(String inputLocation) {
+		language = new ArrayList<String>();//contains all words that can cause a transition
+		language.add("@");
 		if(!retrieve(inputLocation))
 			System.out.println("Read error");
 	}
@@ -18,15 +22,15 @@ public class readClass {
 			FileReader fileReader = new FileReader(inputLocation);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			//file read
-			int noOfStates = Integer.valueOf(bufferedReader.readLine());//Always 1 number Το αυτόματο έχει τρεις καταστάσεις *\
+			int noOfStates = Integer.valueOf(bufferedReader.readLine());//Always 1 number -- 1st line
 
 
-			temp = bufferedReader.readLine();
+			temp = bufferedReader.readLine();//2nd line
 			String[] starts = temp.split(" ");
 			int noOfStarts = starts.length;
 
-			int noOfEnds = Integer.valueOf(bufferedReader.readLine());//Always 1 number 
-			temp = bufferedReader.readLine();
+			int noOfEnds = Integer.valueOf(bufferedReader.readLine());//Always 1 number -- 3rdline
+			temp = bufferedReader.readLine();//4th line
 			String[] ends = temp.split(" ");
 
 
@@ -52,16 +56,19 @@ public class readClass {
 				states.add(new State(isStart, isFinal, i));
 			}
 
-			int noOfTransitions = Integer.valueOf(bufferedReader.readLine());//Always 1 number
+			int noOfTransitions = Integer.valueOf(bufferedReader.readLine());//Always 1 number -- 5th line
 
 			//transition information to states
+			transitionLength = 0;
 			for(i=0;i<noOfTransitions;i++) {
 				temp = bufferedReader.readLine();
 
 				String[] templist = temp.split(" ");
 
 				int sourceState = Integer.valueOf(templist[0]);
-				String tempCharacter = templist[1];
+				String tempCharacter = templist[1];//transition variable
+				if (tempCharacter.length() > transitionLength) transitionLength = tempCharacter.length();
+				if(!language.contains(tempCharacter)) language.add(tempCharacter);
 				int destination = Integer.valueOf(templist[2]);
 
 
@@ -81,8 +88,9 @@ public class readClass {
 			for(State state : states) {
 				state.printStateInfo();
 			}
-			 */
-
+			System.out.println(transitionLength);
+			*/
+			
 			//Closing the door
 			bufferedReader.close();
 			fileReader.close();
@@ -97,10 +105,21 @@ public class readClass {
 			ex.printStackTrace();
 			return false;
 		}   
+		
 	}
 
-	public List<State> getStates() {
+	public ArrayList<State> getStates() {
 		return states;
 	}
+
+	public ArrayList<String> getLanguage() {
+		return language;
+	}
+
+	public int getTransitionLength() {
+		return transitionLength;
+	}
+	
+	
 
 }

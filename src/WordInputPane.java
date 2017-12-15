@@ -1,23 +1,22 @@
-import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class WordInputPane extends JPanel {
 
 	private JFrame frame;
 	private gui test;
+	private Core core;
 	
 	public WordInputPane(JFrame frame, Core c, gui test) {
 		
 		this.test = test;
 		this.frame = frame;
+		this.core = c;
+		
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
@@ -47,7 +46,7 @@ public class WordInputPane extends JPanel {
 		JButton btnPrevious = new JButton("Previous");
 		springLayout.putConstraint(SpringLayout.NORTH, btnPrevious, 0, SpringLayout.NORTH, btnExit);
 		springLayout.putConstraint(SpringLayout.EAST, btnPrevious, -6, SpringLayout.WEST, btnExit);
-		btnPrevious.addMouseListener(new MouseAdapter() {//TODO sent to frame a signal to move on
+		btnPrevious.addMouseListener(new MouseAdapter() {//TODO sent to frame a signal to move back
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				//TODO go back to input pane
@@ -57,38 +56,52 @@ public class WordInputPane extends JPanel {
 		add(btnPrevious);
 
 		JEditorPane inputEditor = new JEditorPane();
+		inputEditor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {//TODO 
+				char input = e.getKeyChar();
+				String sInput = Character.toString(e.getKeyChar());
+				if(input == '\n') {
+					//TODO give the sum up and another chance at entering new input
+					System.out.println("ENTER PRESSED");
+				}
+				else if(input == '\b') {
+					core.deletion();
+					System.out.println("BACKSPACE PRESSED");
+				}
+				else if(core.getLanguage().contains(sInput)) {
+					core.addition(sInput);
+				}
+				else {
+					String info = "Acceptable characters are: " + core.getLanguage().toString();
+					JOptionPane.showMessageDialog(frame, info, "Error", JOptionPane.WARNING_MESSAGE);
+					e.consume();
+				}
+			}
+		});
 		inputEditor.setToolTipText("Input your characters & words here");
 		springLayout.putConstraint(SpringLayout.NORTH, inputEditor, 34, SpringLayout.SOUTH, txtpnInputTheWord);
 		springLayout.putConstraint(SpringLayout.WEST, inputEditor, 0, SpringLayout.WEST, txtpnInputTheWord);
 		springLayout.putConstraint(SpringLayout.SOUTH, inputEditor, -28, SpringLayout.NORTH, btnExit);
 		springLayout.putConstraint(SpringLayout.EAST, inputEditor, 0, SpringLayout.EAST, txtpnInputTheWord);
 		add(inputEditor);
-		inputEditor.getDocument().addDocumentListener(new MyDocumentListener());
+		SwingUtilities.invokeLater(new Runnable() {
+		      public void run() {
+		    	  inputEditor.requestFocus();
+		      }
+		    });
 		
 		setVisible(true);
 		frame.getContentPane().add(this);
 	}
+	
+	
+	
+	
 
 	
 	
 
-	class MyDocumentListener implements DocumentListener {
-		String newline = "\n";
-
-		@Override
-		public void changedUpdate(DocumentEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-		@Override
-		public void insertUpdate(DocumentEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-		@Override
-		public void removeUpdate(DocumentEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-	}
+	
+	
 }

@@ -38,15 +38,16 @@ public class State {
 
 	}
 	
-	public Integer Transition(String c) {//The returned integer points to the state that follows
+	public ArrayList<Integer> Transition(String c) {//The returned integer points to the state that follows
 		int index = 0;
+		ArrayList<Integer> temp = new ArrayList<Integer>();
 		for(String s : condition) {
 			if(s.equalsIgnoreCase(c)) {
-				return outgoing.get(index);
+				temp.add(outgoing.get(index));
 			}
 			index++;
 		}
-		return -1;
+		return temp;
 	}
 
 	public int getStateName() {
