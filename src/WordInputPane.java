@@ -10,13 +10,14 @@ public class WordInputPane extends JPanel {
 	private JFrame frame;
 	private gui test;
 	private Core core;
-	
+	private JTextField statusTextField;
+
 	public WordInputPane(JFrame frame, Core c, gui test) {
-		
+
 		this.test = test;
 		this.frame = frame;
 		this.core = c;
-		
+
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
@@ -56,6 +57,7 @@ public class WordInputPane extends JPanel {
 		add(btnPrevious);
 
 		JEditorPane inputEditor = new JEditorPane();
+		springLayout.putConstraint(SpringLayout.SOUTH, inputEditor, -94, SpringLayout.NORTH, btnExit);
 		inputEditor.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {//TODO 
@@ -63,14 +65,30 @@ public class WordInputPane extends JPanel {
 				String sInput = Character.toString(e.getKeyChar());
 				if(input == '\n') {
 					//TODO give the sum up and another chance at entering new input
-					System.out.println("ENTER PRESSED");
+					//System.out.println("ENTER PRESSED");
+					String out = c.currentStatesInfo();
+					boolean isFinal = c.getFlag();
+					if(isFinal) {
+						out += " IS A FINAL STATE";
+					}
+					else {
+						out += " NOT A FINAL STATE";
+					}
+					JOptionPane.showMessageDialog(frame, out);
+					int choice =JOptionPane.showConfirmDialog(frame, "Do you want to enter a new word?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if(choice == JOptionPane.YES_OPTION) {
+						test.TempToPrevious();
+					}
+
 				}
 				else if(input == '\b') {
-					core.deletion();
-					System.out.println("BACKSPACE PRESSED");
+					//System.out.println("BASKSPACE PRESSED");
+					if(inputEditor.getText().length()>0) {
+						setCurrentStatesInfo(core.deletion());
+					}
 				}
 				else if(core.getLanguage().contains(sInput)) {
-					core.addition(sInput);
+					setCurrentStatesInfo(core.addition(sInput));
 				}
 				else {
 					String info = "Acceptable characters are: " + core.getLanguage().toString();
@@ -82,26 +100,31 @@ public class WordInputPane extends JPanel {
 		inputEditor.setToolTipText("Input your characters & words here");
 		springLayout.putConstraint(SpringLayout.NORTH, inputEditor, 34, SpringLayout.SOUTH, txtpnInputTheWord);
 		springLayout.putConstraint(SpringLayout.WEST, inputEditor, 0, SpringLayout.WEST, txtpnInputTheWord);
-		springLayout.putConstraint(SpringLayout.SOUTH, inputEditor, -28, SpringLayout.NORTH, btnExit);
 		springLayout.putConstraint(SpringLayout.EAST, inputEditor, 0, SpringLayout.EAST, txtpnInputTheWord);
 		add(inputEditor);
 		SwingUtilities.invokeLater(new Runnable() {
-		      public void run() {
-		    	  inputEditor.requestFocus();
-		      }
-		    });
-		
+			public void run() {
+				inputEditor.requestFocus();
+			}
+		});
+
 		setVisible(true);
 		frame.getContentPane().add(this);
+
+		statusTextField = new JTextField();
+		statusTextField.setEditable(false);
+		statusTextField.setText("Current States: " + core.currentStatesInfo());
+		springLayout.putConstraint(SpringLayout.NORTH, statusTextField, 12, SpringLayout.SOUTH, inputEditor);
+		springLayout.putConstraint(SpringLayout.WEST, statusTextField, -430, SpringLayout.EAST, txtpnInputTheWord);
+		springLayout.putConstraint(SpringLayout.SOUTH, statusTextField, 64, SpringLayout.SOUTH, inputEditor);
+		springLayout.putConstraint(SpringLayout.EAST, statusTextField, 0, SpringLayout.EAST, txtpnInputTheWord);
+		add(statusTextField);
+		statusTextField.setColumns(10);
 	}
-	
-	
-	
-	
 
-	
-	
-
-	
-	
+	public void setCurrentStatesInfo(String s) {
+		statusTextField.setText("Current States: " + s);
+	}
 }
+
+

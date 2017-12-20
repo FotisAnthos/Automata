@@ -8,6 +8,7 @@ public class gui {
 
 	private JFrame frame;
 	private gui test;
+	
 
 	public gui() {
 		test = this;//TODO delete after WordInputPane integration to gui
@@ -150,13 +151,9 @@ public class gui {
 			btnNext.addMouseListener(new MouseAdapter() {//TODO sent to frame a signal to move on
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					//TODO
 					readClass r = new readClass(InputLocation);
-					Core c = new Core(r.getStates(), r.getLanguage(), r.getTransitionLength());
-					
+					Core c = new Core(r.getStates(), r.getLanguage(), r.getTransitionLength());	
 					frame.setContentPane(new WordInputPane(frame, c, test));
-					
-					//get the read results and use them
 				}
 			});
 			add(btnNext);
