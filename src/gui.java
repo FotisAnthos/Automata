@@ -8,6 +8,7 @@ public class gui {
 
 	private JFrame frame;
 	private gui test;
+	
 
 	public gui() {
 		test = this;//TODO delete after WordInputPane integration to gui

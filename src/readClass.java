@@ -68,7 +68,16 @@ public class readClass {
 				int sourceState = Integer.valueOf(templist[0]);
 				String tempCharacter = templist[1];//transition variable
 				if (tempCharacter.length() > transitionLength) transitionLength = tempCharacter.length();
-				if(!language.contains(tempCharacter)) language.add(tempCharacter);
+				if(!language.contains(tempCharacter)) {
+					if(tempCharacter.length()<2) {
+						language.add(tempCharacter);
+					}
+					else {
+						for(i=0; i<tempCharacter.length();i++) {
+							if(!language.contains(Character.toString(tempCharacter.charAt(i))));
+						}
+					}
+				}
 				int destination = Integer.valueOf(templist[2]);
 
 
