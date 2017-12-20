@@ -65,9 +65,24 @@ public class WordInputPane extends JPanel {
 				String sInput = Character.toString(e.getKeyChar());
 				if(input == '\n') {
 					//TODO give the sum up and another chance at entering new input
-					System.out.println("ENTER PRESSED");
+					//System.out.println("ENTER PRESSED");
+					String out = c.currentStatesInfo();
+					boolean isFinal = c.getFlag();
+					if(isFinal) {
+						out += " IS A FINAL STATE";
+					}
+					else {
+						out += " NOT A FINAL STATE";
+					}
+					JOptionPane.showMessageDialog(frame, out);
+					int choice =JOptionPane.showConfirmDialog(frame, "Do you want to enter a new word?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if(choice == JOptionPane.YES_OPTION) {
+						test.TempToPrevious();
+					}
+
 				}
 				else if(input == '\b') {
+					//System.out.println("BASKSPACE PRESSED");
 					if(inputEditor.getText().length()>0) {
 						setCurrentStatesInfo(core.deletion());
 					}
@@ -95,10 +110,10 @@ public class WordInputPane extends JPanel {
 
 		setVisible(true);
 		frame.getContentPane().add(this);
-		
+
 		statusTextField = new JTextField();
 		statusTextField.setEditable(false);
-		statusTextField.setText(core.currentStatesInfo());
+		statusTextField.setText("Current States: " + core.currentStatesInfo());
 		springLayout.putConstraint(SpringLayout.NORTH, statusTextField, 12, SpringLayout.SOUTH, inputEditor);
 		springLayout.putConstraint(SpringLayout.WEST, statusTextField, -430, SpringLayout.EAST, txtpnInputTheWord);
 		springLayout.putConstraint(SpringLayout.SOUTH, statusTextField, 64, SpringLayout.SOUTH, inputEditor);
@@ -106,9 +121,9 @@ public class WordInputPane extends JPanel {
 		add(statusTextField);
 		statusTextField.setColumns(10);
 	}
-	
+
 	public void setCurrentStatesInfo(String s) {
-		statusTextField.setText(s);
+		statusTextField.setText("Current States: " + s);
 	}
 }
 

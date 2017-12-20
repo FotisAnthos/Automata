@@ -8,7 +8,7 @@ public class Core {
 	ArrayList<String> language;
 	ArrayList<String> userInput;
 	int transitionLength, textLength;
-	boolean flag;
+	boolean isFinal;
 
 	public Core(ArrayList<State> states, ArrayList<String> language, int transitionLength) {
 		//Transporting states list
@@ -17,7 +17,7 @@ public class Core {
 		this.language = new ArrayList<String>();
 		this.language = language;
 		this.transitionLength = transitionLength;
-		this.flag = false;
+		this.isFinal = false;
 		this.userInput = new ArrayList<String>();
 		//setting the current states
 		this.currStates = new ArrayList<State>();
@@ -27,7 +27,7 @@ public class Core {
 			if(state.isInitial()) {
 				currStates.add(state);
 				if(state.isAfinal()) {
-					flag = true;
+					isFinal = true;
 				}
 			}
 		}
@@ -45,7 +45,7 @@ public class Core {
 
 	public String deletion() {
 		userInput.remove(userInput.size()-1);//remove the last character
-		allCurrStates.remove(allCurrStates.size()); //remove the last currState
+		allCurrStates.remove(allCurrStates.size()-1); //remove the last currState
 		
 		//System.out.println(userInput.toString());
 		return currentStatesInfo();
@@ -61,25 +61,35 @@ public class Core {
 			for(State st : currStates) {//in each state
 				trans = st.Transition(exp); //get all transitions from the current state for the specific expression exp
 				if(!trans.isEmpty()) {//if there are transitions
-					for(Integer index : trans) {//for each transition put the resulting state on the current states
-						if(!tempCurrStates.contains(states.get(index))) {
-							tempCurrStates.add(states.get(index));
+					for(Integer outName : trans) {//for each transition put the resulting state on the current states
+						boolean check = false;
+						for(State tempState : states) {//search the states, when you find the state with the name == outName (should be integers in this case) 
+							if(tempState.getStateName() == outName) {
+								check = true;//a state with the specific name is found
+								if(!tempCurrStates.contains(tempState)) {
+									tempCurrStates.add(tempState);
+								}
+							}
+						}
+						if(!check) {//check if the state was found or not
+							System.err.println("State not found in states --Core -wordCheck");
 						}
 					}
 				}
 			}
+			if(tempCurrStates.isEmpty()) System.out.println("tempCurrStates is empty, no current states created --Core -wordCheck");
 			allCurrStates.add(tempCurrStates);
 		}
-		flag = statusCheck(allCurrStates.get(allCurrStates.size()-1));//update the "finality" of transitions
+		isFinal = statusCheck(allCurrStates.get(allCurrStates.size()-1));//update the "finality" of transitions
 	}
 
 	public boolean statusCheck(ArrayList<State> tempCurrStates){ //return true if there is a final state in the current states 
-		boolean flag = false;
+		boolean isFinal = false;
 		for(State state : tempCurrStates) {
 			if(state.isAfinal())
-				flag = true;
+				isFinal = true;
 		}
-		return flag;
+		return isFinal;
 	}
 
 	public ArrayList<String> getLanguage() {
@@ -114,6 +124,12 @@ public class Core {
 		}
 		return temp;
 	}
+
+	public boolean getFlag() {
+		return isFinal;
+	}
+	
+	
 
 
 
