@@ -86,6 +86,7 @@ public class gui {
 
 			rdbtnCustom = new JRadioButton("Custom");
 			rdbtnCustom.addItemListener(new ItemListener() {//https://stackoverflow.com/a/1424762
+				@Override
 				public void itemStateChanged(ItemEvent e) {
 					if (e.getStateChange() == ItemEvent.SELECTED) {
 						locTextField.setEnabled(true);
@@ -165,6 +166,7 @@ public class gui {
 				locTextField.setEditable(false);
 			}
 			else {
+				JOptionPane.showMessageDialog(frame, "Default input file not found!");
 				InputLocation = currDir;
 				rdbtnCustom.setSelected(true);
 				locTextField.setEditable(true);
