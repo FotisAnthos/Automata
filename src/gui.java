@@ -7,11 +7,14 @@ import java.io.*;
 public class gui {
 
 	private JFrame frame;
-	private gui test;
+	private gui guiInst;
 	
-
+	public static void main(String[] args) {
+		new gui();
+	}
+	
 	public gui() {
-		test = this;//TODO delete after WordInputPane integration to gui
+		guiInst = this;
 		// Set System L&F
 		try {
 			UIManager.setLookAndFeel(
@@ -124,7 +127,7 @@ public class gui {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					if(browseButton.isEnabled()) {
-						File file = fileChoose();//TODO incomplete
+						File file = fileChoose();
 						InputLocation = file.getAbsolutePath();
 						locTextField.setText(InputLocation);
 					}
@@ -149,12 +152,12 @@ public class gui {
 			btnNext = new JButton("Next");
 			springLayout.putConstraint(SpringLayout.NORTH, btnNext, 0, SpringLayout.NORTH, btnExit);
 			springLayout.putConstraint(SpringLayout.EAST, btnNext, -6, SpringLayout.WEST, btnExit);
-			btnNext.addMouseListener(new MouseAdapter() {//TODO sent to frame a signal to move on
+			btnNext.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					readClass r = new readClass(InputLocation);
 					Core c = new Core(r.getStates(), r.getLanguage(), r.getTransitionLength());	
-					frame.setContentPane(new WordInputPane(frame, c, test));
+					frame.setContentPane(new WordInputPane(frame, c, guiInst));
 				}
 			});
 			add(btnNext);

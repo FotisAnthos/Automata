@@ -7,15 +7,10 @@ import java.awt.event.KeyEvent;
 
 public class WordInputPane extends JPanel {
 
-	private JFrame frame;
-	private gui test;
 	private Core core;
 	private JTextField statusTextField;
 
 	public WordInputPane(JFrame frame, Core c, gui test) {
-
-		this.test = test;
-		this.frame = frame;
 		this.core = c;
 
 		SpringLayout springLayout = new SpringLayout();
@@ -47,11 +42,10 @@ public class WordInputPane extends JPanel {
 		JButton btnPrevious = new JButton("Previous");
 		springLayout.putConstraint(SpringLayout.NORTH, btnPrevious, 0, SpringLayout.NORTH, btnExit);
 		springLayout.putConstraint(SpringLayout.EAST, btnPrevious, -6, SpringLayout.WEST, btnExit);
-		btnPrevious.addMouseListener(new MouseAdapter() {//TODO sent to frame a signal to move back
+		btnPrevious.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//TODO go back to input pane
-				test.TempToPrevious();//TODO remove this and "gui test" from this class
+				test.TempToPrevious();
 			}
 		});
 		add(btnPrevious);
@@ -60,11 +54,10 @@ public class WordInputPane extends JPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, inputEditor, -94, SpringLayout.NORTH, btnExit);
 		inputEditor.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyTyped(KeyEvent e) {//TODO 
+			public void keyTyped(KeyEvent e) {
 				char input = e.getKeyChar();
 				String sInput = Character.toString(e.getKeyChar());
 				if(input == '\n') {
-					//TODO give the sum up and another chance at entering new input
 					//System.out.println("ENTER PRESSED");
 					String out = c.currentStatesInfo();
 					boolean isFinal = c.getFlag();
@@ -103,6 +96,7 @@ public class WordInputPane extends JPanel {
 		springLayout.putConstraint(SpringLayout.EAST, inputEditor, 0, SpringLayout.EAST, txtpnInputTheWord);
 		add(inputEditor);
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				inputEditor.requestFocus();
 			}

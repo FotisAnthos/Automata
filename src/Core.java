@@ -2,13 +2,13 @@ import java.util.*;
 
 public class Core {
 
-	ArrayList<State> states;
-	ArrayList<State> currStates;
-	ArrayList<ArrayList<State>> allCurrStates;
-	ArrayList<String> language;
-	ArrayList<String> userInput;
-	int transitionLength, textLength;
-	boolean isFinal;
+	private ArrayList<State> states;
+	private ArrayList<State> currStates;
+	private ArrayList<ArrayList<State>> allCurrStates;
+	private ArrayList<String> language;
+	private ArrayList<String> userInput;
+	private int transitionLength;
+	private boolean isFinal;
 
 	public Core(ArrayList<State> states, ArrayList<String> language, int transitionLength) {
 		//Transporting states list
@@ -52,7 +52,28 @@ public class Core {
 	}
 
 
-	public void wordCheck(ArrayList<String> expressions) {//addition of a character-string to check TODO check
+	private ArrayList<String> expressions(){
+		ArrayList<String> expressions = new ArrayList<String>();//expressions will be created from what the user has inputed and sent for checking
+		for(int i = 0; i < transitionLength; i++) {
+			String exp = ""; 
+			int count = 0;
+			if(i<userInput.size()) {
+				for(int j = (userInput.size()-1) - i; j< userInput.size(); j++) {
+					exp += userInput.get(j);
+					count++;
+					if(count>i)
+						break;
+				}
+			}
+			if(!exp.equals("")) {
+				expressions.add(exp);
+			}
+		}
+		System.out.println("Expressions: " + expressions.toString());
+		return expressions;
+	}
+
+	private void wordCheck(ArrayList<String> expressions) {//addition of a character-string to check
 		ArrayList<Integer> trans = new ArrayList<Integer>();
 		ArrayList<State> tempCurrStates = new ArrayList<State>();
 		
@@ -83,7 +104,7 @@ public class Core {
 		isFinal = statusCheck(allCurrStates.get(allCurrStates.size()-1));//update the "finality" of transitions
 	}
 
-	public boolean statusCheck(ArrayList<State> tempCurrStates){ //return true if there is a final state in the current states 
+	private boolean statusCheck(ArrayList<State> tempCurrStates){ //return true if there is a final state in the current states 
 		boolean isFinal = false;
 		for(State state : tempCurrStates) {
 			if(state.isAfinal())
@@ -92,45 +113,20 @@ public class Core {
 		return isFinal;
 	}
 
-	public ArrayList<String> getLanguage() {
-		return language;
-	}
-
-	private ArrayList<String> expressions(){
-		ArrayList<String> expressions = new ArrayList<String>();//expressions will be created from what the user has inputed and sent for checking
-		for(int i = 0; i < transitionLength; i++) {
-			String exp = ""; 
-			int count = 0;
-			if(i<userInput.size()) {
-				for(int j = (userInput.size()-1) - i; j< userInput.size(); j++) {
-					exp += userInput.get(j);
-					count++;
-					if(count>i)
-						break;
-				}
-			}
-			if(!exp.equals("")) {
-				expressions.add(exp);
-			}
-		}
-		System.out.println("Expressions: " + expressions.toString());
-		return expressions;
-	}
-	
 	public String currentStatesInfo() {
 		String temp = "";
 		for(State st : allCurrStates.get(allCurrStates.size()-1)) {
-			temp += st.getStateName();
+			temp +=  st.getStateName() + "  ";
 		}
 		return temp;
+	}
+
+	public ArrayList<String> getLanguage() {
+		return language;
 	}
 
 	public boolean getFlag() {
 		return isFinal;
 	}
-	
-	
-
-
 
 }
